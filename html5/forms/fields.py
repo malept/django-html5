@@ -9,9 +9,9 @@ def _set_minmax_widget_attrs(cls):
         Field.
         """
         attrs = super(cls, self).widget_attrs(widget)
-        if self.min_value is not None:
+        if getattr(self, 'min_value', None) is not None:
             attrs['min'] = self.min_value
-        if self.max_value is not None:
+        if getattr(self, 'max_value', None) is not None:
             attrs['max'] = self.max_value
         return attrs
     cls.widget_attrs = _minmax_widget_attrs
