@@ -4,7 +4,8 @@ TODO: Date widgets
 """
 from django.forms.widgets import (
     DateInput as DjangoDateInput, DateTimeInput as DjangoDateTimeInput,
-    Input, TextInput as DjangoTextInput, TimeInput as DjangoTimeInput)
+    Input, SplitDateTimeWidget as DjangoSplitDateTimeWidget,
+    TextInput as DjangoTextInput, TimeInput as DjangoTimeInput)
 
 
 class HTML5InputMixin(object):
@@ -67,3 +68,11 @@ class DateTimeInput(DjangoDateTimeInput, HTML5InputMixin):
 
 class DateTimeLocalInput(DjangoDateTimeInput, HTML5InputMixin):
     input_type = 'datetime-local'
+
+
+class SplitDateTimeWidget(DjangoSplitDateTimeWidget):
+
+    def __init__(self, attrs=None, date_format=None, time_format=None):
+       widgets = (DateInput(attrs=attrs, format=date_format),
+                  TimeInput(attrs=attrs, format=time_format))
+       super(DjangoSplitDateTimeWidget, self).__init__(widgets, attrs)
