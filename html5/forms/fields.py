@@ -1,4 +1,22 @@
-from django.forms.fields import DecimalField, IntegerField
+from django.forms.fields import *
+
+
+def _widget_attrs(self, widget):
+    attrs = {}
+    if self.required:
+        attrs['required'] = 'required'
+    return attrs
+Field.widget_attrs = _widget_attrs
+
+
+def _char_widget_attrs(self, widget):
+    attrs = super(CharField, self).widget_attrs(widget)
+    more_attrs = self._more_widget_attrs(widget)
+    if more_attrs:
+        attrs.update(more_attrs)
+    return attrs
+CharField._more_widget_attrs = CharField.widget_attrs
+CharField.widget_attrs = _char_widget_attrs
 
 
 def _set_minmax_widget_attrs(cls):
