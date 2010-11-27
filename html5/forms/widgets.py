@@ -6,7 +6,7 @@ from django.forms.widgets import Input
 
 class HTML5Input(Input):
     use_autofocus_fallback = False
-    
+
     def render(self, *args, **kwargs):
         rendered_string = super(HTML5Input, self).render(*args, **kwargs)
         # js only works when an id is set
@@ -23,7 +23,7 @@ class TextInput(HTML5Input):
 
 class EmailInput(HTML5Input):
     input_type = 'email'
-    
+
 class URLInput(HTML5Input):
     input_type = 'url'
 
@@ -35,16 +35,16 @@ class ColorInput(HTML5Input):
     Not supported by any browsers at this time (Jan. 2010).
     """
     input_type = 'color'
-    
+
 class NumberInput(HTML5Input):
     input_type = 'number'
-    
+
 class RangeInput(NumberInput):
     input_type = 'range'
-    
+
 class DateInput(HTML5Input):
     input_type = 'date'
-    
+
 class MonthInput(HTML5Input):
     input_type = 'month'
 
