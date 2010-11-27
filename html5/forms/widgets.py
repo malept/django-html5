@@ -2,13 +2,16 @@
 HTML5 input widgets.
 TODO: Date widgets
 """
-from django.forms.widgets import Input
+from django.forms.widgets import (
+    DateInput as DjangoDateInput, DateTimeInput as DjangoDateTimeInput,
+    Input, TextInput as DjangoTextInput, TimeInput as DjangoTimeInput)
 
-class HTML5Input(Input):
+
+class HTML5InputMixin(object):
     use_autofocus_fallback = False
 
     def render(self, *args, **kwargs):
-        rendered_string = super(HTML5Input, self).render(*args, **kwargs)
+        rendered_string = super(self.__class__, self).render(*args, **kwargs)
         # js only works when an id is set
         if self.use_autofocus_fallback and kwargs.has_key('attrs') and kwargs['attrs'].get("id",False) and kwargs['attrs'].has_key("autofocus"):
             rendered_string += """<script>
@@ -18,16 +21,21 @@ if (!("autofocus" in document.createElement("input"))) {
 </script>""" % kwargs['attrs']['id']
         return rendered_string
 
-class TextInput(HTML5Input):
+
+class HTML5Input(Input, HTML5InputMixin):
+    pass
+
+
+class TextInput(DjangoTextInput, HTML5InputMixin):
     input_type = 'text'
 
-class EmailInput(HTML5Input):
+class EmailInput(TextInput):
     input_type = 'email'
 
-class URLInput(HTML5Input):
+class URLInput(TextInput):
     input_type = 'url'
 
-class SearchInput(HTML5Input):
+class SearchInput(TextInput):
     input_type = 'search'
 
 class ColorInput(HTML5Input):
@@ -42,7 +50,7 @@ class NumberInput(HTML5Input):
 class RangeInput(NumberInput):
     input_type = 'range'
 
-class DateInput(HTML5Input):
+class DateInput(DjangoDateInput, HTML5InputMixin):
     input_type = 'date'
 
 class MonthInput(HTML5Input):
@@ -51,11 +59,11 @@ class MonthInput(HTML5Input):
 class WeekInput(HTML5Input):
     input_type = 'week'
 
-class TimeInput(HTML5Input):
+class TimeInput(DjangoTimeInput, HTML5InputMixin):
     input_type = 'time'
 
-class DateTimeInput(HTML5Input):
+class DateTimeInput(DjangoDateTimeInput, HTML5InputMixin):
     input_type = 'datetime'
 
-class DateTimeLocalInput(HTML5Input):
+class DateTimeLocalInput(DjangoDateTimeInput, HTML5InputMixin):
     input_type = 'datetime-local'
