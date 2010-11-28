@@ -5,7 +5,8 @@ TODO: Date widgets
 from django.forms.widgets import (
     DateInput as DjangoDateInput, DateTimeInput as DjangoDateTimeInput,
     Input, SplitDateTimeWidget as DjangoSplitDateTimeWidget,
-    TextInput as DjangoTextInput, TimeInput as DjangoTimeInput)
+    Textarea as DjangoTextarea, TextInput as DjangoTextInput,
+    TimeInput as DjangoTimeInput)
 
 
 class HTML5InputMixin(object):
@@ -24,6 +25,10 @@ if (!("autofocus" in document.createElement("input"))) {
 
 
 class HTML5Input(Input, HTML5InputMixin):
+    pass
+
+
+class Textarea(DjangoTextarea, HTML5InputMixin):
     pass
 
 
